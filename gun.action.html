@@ -4,359 +4,683 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Gun Action - Target Strike</title>
+<title>Gun Action - Alien VS</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-body{
-  font-family:Arial,sans-serif;
-  background:#05080d;
-  color:#fff;
+html,body{
+  width:100%;
+  height:100%;
   overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#02050a;
+  color:white;
   touch-action:none;
 }
 
 button{
   border:0;
   border-radius:12px;
+  color:white;
   font-weight:bold;
-  color:#fff;
   cursor:pointer;
 }
 
-/* HOME */
+/* ================= HOME ================= */
 
 #home{
-  min-height:100vh;
+  width:100%;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:20px;
   background:
-    radial-gradient(circle at 50% 20%,#18334b 0,#071018 45%,#030507 100%);
+    radial-gradient(circle at 50% 20%,#183d5a,#07111b 45%,#010306);
 }
 
-.menu{
+.homeBox{
   width:100%;
-  max-width:430px;
+  max-width:440px;
   text-align:center;
   padding:30px 20px;
-  border:1px solid #29445b;
   border-radius:25px;
-  background:rgba(10,18,27,.92);
-  box-shadow:0 15px 50px #000;
+  background:rgba(7,15,24,.95);
+  border:1px solid #31506a;
+  box-shadow:0 20px 60px #000;
 }
 
 .logo{
-  font-size:48px;
+  font-size:60px;
   margin-bottom:5px;
 }
 
-.menu h1{
+.homeBox h1{
   font-size:34px;
-  margin-bottom:8px;
+  letter-spacing:2px;
 }
 
-.menu p{
-  color:#9fb0bf;
-  margin-bottom:25px;
+.homeBox h2{
+  color:#55c8ff;
+  margin:8px 0 15px;
 }
 
-.start{
+.homeBox p{
+  color:#aab8c4;
+  line-height:1.5;
+}
+
+.startBtn{
   width:90%;
-  padding:16px;
-  background:#1687ff;
+  padding:17px;
+  margin-top:25px;
   font-size:19px;
-  box-shadow:0 0 25px rgba(22,135,255,.35);
+  background:#1687ff;
+  box-shadow:0 0 25px rgba(22,135,255,.4);
 }
 
-.menu-small{
-  margin-top:15px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
+.helpBtn{
+  margin-top:12px;
+  padding:12px 22px;
+  background:#172536;
 }
 
-.menu-small button{
-  background:#172432;
-  padding:11px 15px;
-}
 
-/* GAME */
+/* ================= GAME ================= */
 
 #game{
   display:none;
-  height:100vh;
-  background:#050a10;
+  width:100%;
+  height:100%;
+  background:#03070d;
 }
 
 .topbar{
-  height:62px;
+  height:68px;
   display:flex;
   align-items:center;
   justify-content:space-around;
-  background:#09121b;
-  border-bottom:1px solid #29445b;
+  background:#07121d;
+  border-bottom:1px solid #29455c;
   position:relative;
-  z-index:20;
+  z-index:50;
 }
 
 .stat{
-  font-size:14px;
-  color:#9fb0bf;
+  color:#8fa5b6;
+  text-align:center;
+  font-size:11px;
 }
 
 .stat b{
   display:block;
   color:#fff;
-  font-size:18px;
+  font-size:17px;
+  margin-top:2px;
 }
+
+
+/* ================= ARENA ================= */
 
 #arena{
   position:relative;
   width:100%;
-  max-width:520px;
-  height:calc(100vh - 132px);
+  max-width:540px;
+  height:calc(100vh - 138px);
   margin:auto;
   overflow:hidden;
   background:
-    radial-gradient(circle at 50% 50%,#172838,#081018 65%,#030507);
+    radial-gradient(circle at 50% 40%,#142c3b 0,#07131d 48%,#02050a 100%);
 }
 
-/* background lights */
 
-.light{
+/* stars */
+
+.star{
   position:absolute;
   width:3px;
   height:3px;
   border-radius:50%;
-  background:#fff;
+  background:white;
   opacity:.6;
-  animation:fall linear infinite;
+  animation:starMove linear infinite;
 }
 
-@keyframes fall{
-  from{transform:translateY(-20px)}
-  to{transform:translateY(800px)}
-}
-
-/* TARGET */
-
-.target{
-  position:absolute;
-  width:76px;
-  height:76px;
-  border-radius:50%;
-  background:#d71920;
-  border:7px solid #fff;
-  box-shadow:
-    0 0 0 5px #d71920,
-    0 0 25px rgba(255,50,50,.55);
-  z-index:5;
-  animation:floatTarget .8s infinite alternate;
-}
-
-.target:before{
-  content:"";
-  position:absolute;
-  width:42px;
-  height:42px;
-  left:10px;
-  top:10px;
-  border-radius:50%;
-  border:5px solid #fff;
-}
-
-.target:after{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  left:22px;
-  top:22px;
-  border-radius:50%;
-  background:#111;
-}
-
-@keyframes floatTarget{
-  from{transform:scale(.9) rotate(-3deg)}
-  to{transform:scale(1.08) rotate(3deg)}
-}
-
-/* BONUS TARGET */
-
-.bonus{
-  background:#f5b400;
-  box-shadow:
-    0 0 0 5px #f5b400,
-    0 0 30px rgba(255,190,0,.7);
-}
-
-/* HIT EFFECT */
-
-.hit{
-  position:absolute;
-  width:25px;
-  height:25px;
-  border:4px solid #ffd54f;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:30;
-  animation:hit .4s forwards;
-}
-
-@keyframes hit{
+@keyframes starMove{
   from{
-    transform:scale(.3);
-    opacity:1;
+    transform:translateY(-20px);
   }
   to{
-    transform:scale(4);
+    transform:translateY(800px);
+  }
+}
+
+
+/* ================= ROUND BANNER ================= */
+
+#roundBanner{
+  position:absolute;
+  top:25px;
+  left:50%;
+  transform:translateX(-50%) scale(.7);
+  opacity:0;
+  z-index:70;
+  padding:10px 25px;
+  border-radius:15px;
+  background:rgba(10,20,30,.9);
+  border:1px solid #55c8ff;
+  box-shadow:0 0 25px rgba(85,200,255,.4);
+  text-align:center;
+  pointer-events:none;
+}
+
+#roundBanner.show{
+  animation:bannerShow 1.8s forwards;
+}
+
+@keyframes bannerShow{
+  0%{
+    opacity:0;
+    transform:translateX(-50%) scale(.5);
+  }
+  20%{
+    opacity:1;
+    transform:translateX(-50%) scale(1.1);
+  }
+  80%{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+  }
+  100%{
+    opacity:0;
+    transform:translateX(-50%) scale(1);
+  }
+}
+
+
+/* ================= PLAYER ================= */
+
+#player{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:105px;
+  height:60px;
+  border-radius:45% 45% 20% 20%;
+  background:linear-gradient(#2b9cff,#0756a5);
+  border:2px solid #78d4ff;
+  box-shadow:
+    0 0 20px rgba(30,160,255,.6),
+    0 8px 20px #000;
+  z-index:20;
+}
+
+#player:before{
+  content:"";
+  position:absolute;
+  width:45px;
+  height:28px;
+  left:28px;
+  top:-17px;
+  border-radius:50% 50% 25% 25%;
+  background:#7de1ff;
+  border:2px solid white;
+}
+
+#player:after{
+  content:"";
+  position:absolute;
+  width:80px;
+  height:8px;
+  left:11px;
+  bottom:7px;
+  border-radius:10px;
+  background:#062b4d;
+}
+
+
+/* ================= PLAYER HP ================= */
+
+#playerHPBox{
+  position:absolute;
+  left:15px;
+  bottom:100px;
+  width:145px;
+  z-index:30;
+}
+
+.hpName{
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.hpBar{
+  width:100%;
+  height:12px;
+  background:#202932;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid #65727d;
+}
+
+#playerHP{
+  width:100%;
+  height:100%;
+  background:#28e879;
+  transition:.2s;
+}
+
+
+/* ================= ALIEN ================= */
+
+#alien{
+  position:absolute;
+  width:105px;
+  height:110px;
+  left:50%;
+  top:45px;
+  transform:translateX(-50%);
+  z-index:15;
+  display:none;
+  animation:alienFloat 1.2s ease-in-out infinite alternate;
+}
+
+.alienBody{
+  position:absolute;
+  width:80px;
+  height:80px;
+  left:12px;
+  top:20px;
+  border-radius:50% 50% 45% 45%;
+  background:radial-gradient(circle at 35% 25%,#aaffc2,#198b55 50%,#07552e);
+  border:3px solid #7dffc0;
+  box-shadow:0 0 25px rgba(30,255,130,.5);
+}
+
+.alienEye{
+  position:absolute;
+  width:27px;
+  height:35px;
+  top:37px;
+  background:#030507;
+  border-radius:50%;
+}
+
+.eye1{left:28px}
+.eye2{right:28px}
+
+.alienMouth{
+  position:absolute;
+  width:30px;
+  height:8px;
+  left:25px;
+  bottom:28px;
+  border-bottom:3px solid #031108;
+  border-radius:50%;
+}
+
+.antenna{
+  position:absolute;
+  width:3px;
+  height:25px;
+  top:0;
+  background:#7dffc0;
+}
+
+.ant1{
+  left:35px;
+  transform:rotate(-25deg);
+}
+
+.ant2{
+  right:35px;
+  transform:rotate(25deg);
+}
+
+@keyframes alienFloat{
+  from{
+    transform:translateX(-50%) translateY(-5px);
+  }
+  to{
+    transform:translateX(-50%) translateY(8px);
+  }
+}
+
+
+/* ================= ALIEN HP ================= */
+
+#alienHPBox{
+  position:absolute;
+  top:160px;
+  left:50%;
+  transform:translateX(-50%);
+  width:190px;
+  z-index:30;
+  text-align:center;
+  display:none;
+}
+
+#alienHP{
+  width:100%;
+  height:100%;
+  background:#ff3151;
+  transition:.2s;
+}
+
+
+/* ================= HELICOPTER ================= */
+
+#helicopter{
+  position:absolute;
+  width:115px;
+  height:55px;
+  left:50%;
+  bottom:15px;
+  transform:translateX(-50%);
+  z-index:19;
+  pointer-events:none;
+}
+
+.copterBody{
+  position:absolute;
+  width:80px;
+  height:45px;
+  left:15px;
+  top:8px;
+  border-radius:45% 50% 35% 35%;
+  background:linear-gradient(#596b7a,#1b2731);
+  border:2px solid #91a7b6;
+}
+
+.copterGlass{
+  position:absolute;
+  width:36px;
+  height:25px;
+  left:30px;
+  top:13px;
+  border-radius:50%;
+  background:#7bdcff;
+  opacity:.8;
+}
+
+.copterTail{
+  position:absolute;
+  width:40px;
+  height:8px;
+  right:-18px;
+  top:24px;
+  background:#44535e;
+}
+
+.copterRotor{
+  position:absolute;
+  width:115px;
+  height:4px;
+  left:0;
+  top:3px;
+  background:#cbd6dd;
+  animation:rotor .08s linear infinite;
+}
+
+@keyframes rotor{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(180deg)}
+}
+
+
+/* ================= BULLET ================= */
+
+.bullet{
+  position:absolute;
+  width:7px;
+  height:20px;
+  border-radius:10px;
+  background:#fff36b;
+  box-shadow:0 0 15px #ffe600;
+  z-index:25;
+}
+
+
+/* alien bullet */
+
+.alienBullet{
+  background:#ff416c;
+  box-shadow:0 0 15px #ff164b;
+}
+
+
+/* ================= EXPLOSION ================= */
+
+.explosion{
+  position:absolute;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  z-index:60;
+  pointer-events:none;
+  background:#ffca28;
+  box-shadow:
+    0 0 15px #ff9800,
+    0 0 30px #ff3d00,
+    0 0 50px #ff0000;
+  animation:explode .55s forwards;
+}
+
+@keyframes explode{
+  0%{
+    transform:scale(.2);
+    opacity:1;
+  }
+  60%{
+    transform:scale(3);
+    opacity:.8;
+  }
+  100%{
+    transform:scale(5);
     opacity:0;
   }
 }
 
-/* MISS FLASH */
 
-#miss{
+/* ================= COIN ================= */
+
+.coin{
   position:absolute;
-  inset:0;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#ffd52a;
+  border:3px solid #fff4a3;
+  color:#7a4b00;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  z-index:45;
+  animation:coinMove 1s forwards;
+}
+
+@keyframes coinMove{
+  from{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-100px) scale(.5);
+    opacity:0;
+  }
+}
+
+
+/* ================= POWER UP ================= */
+
+.power{
+  position:absolute;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#b000ff;
+  border:3px solid #f0aaff;
+  box-shadow:0 0 25px #c000ff;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  animation:powerFloat 1s infinite alternate;
+}
+
+@keyframes powerFloat{
+  from{transform:translateY(0)}
+  to{transform:translateY(-10px)}
+}
+
+
+/* ================= BOMB ================= */
+
+.bomb{
+  position:absolute;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#20252a;
+  border:3px solid #77838b;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  animation:bombPulse .5s infinite alternate;
+}
+
+@keyframes bombPulse{
+  from{box-shadow:0 0 5px red}
+  to{box-shadow:0 0 25px red}
+}
+
+
+/* ================= COMBO TEXT ================= */
+
+.comboText{
+  position:absolute;
+  z-index:80;
+  color:#ffe600;
+  font-size:28px;
+  font-weight:bold;
   pointer-events:none;
-  background:#ff0000;
-  opacity:0;
-  z-index:2;
+  animation:comboFly .8s forwards;
 }
 
-.missFlash{
-  animation:miss .2s;
+@keyframes comboFly{
+  from{
+    transform:translateY(0) scale(.7);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-80px) scale(1.3);
+    opacity:0;
+  }
 }
 
-@keyframes miss{
-  0%{opacity:.25}
-  100%{opacity:0}
-}
 
-/* BOTTOM */
+/* ================= BOTTOM ================= */
 
 .bottom{
   height:70px;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:12px;
-  background:#09121b;
-  border-top:1px solid #29445b;
+  gap:10px;
+  background:#07121d;
+  border-top:1px solid #29455c;
 }
 
-.shoot{
-  width:145px;
+.shootBtn{
+  width:150px;
   height:52px;
   background:#1687ff;
   font-size:18px;
-  box-shadow:0 0 20px rgba(22,135,255,.3);
+  box-shadow:0 0 20px rgba(22,135,255,.35);
 }
 
-.pause{
-  width:90px;
+.ctrlBtn{
+  width:70px;
   height:52px;
-  background:#172432;
+  background:#172536;
+  font-size:23px;
 }
 
-/* CROSSHAIR */
 
-#crosshair{
-  position:absolute;
-  width:42px;
-  height:42px;
-  border:2px solid rgba(255,255,255,.55);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  pointer-events:none;
-  z-index:40;
-}
-
-#crosshair:before,
-#crosshair:after{
-  content:"";
-  position:absolute;
-  background:#fff;
-  opacity:.7;
-}
-
-#crosshair:before{
-  width:2px;
-  height:58px;
-  left:18px;
-  top:-10px;
-}
-
-#crosshair:after{
-  width:58px;
-  height:2px;
-  left:-10px;
-  top:18px;
-}
-
-/* OVERLAYS */
+/* ================= OVERLAYS ================= */
 
 .overlay{
   display:none;
   position:absolute;
   inset:0;
   z-index:100;
-  background:rgba(0,0,0,.88);
+  background:rgba(0,0,0,.9);
   align-items:center;
   justify-content:center;
   flex-direction:column;
   text-align:center;
-  padding:20px;
+}
+
+.overlay h1{
+  font-size:42px;
+  margin-bottom:10px;
 }
 
 .overlay h2{
-  font-size:38px;
-  margin-bottom:12px;
+  color:#55c8ff;
+  margin-bottom:15px;
 }
 
 .overlay p{
-  color:#b7c4cf;
+  color:#aebbc6;
   margin:5px;
 }
 
 .overlay button{
+  padding:13px 25px;
   margin:7px;
-  padding:13px 24px;
   background:#1687ff;
 }
 
-.secondary{
+.darkBtn{
   background:#263646!important;
 }
 
-/* SETTINGS */
+
+/* ================= SETTINGS ================= */
 
 #settings{
   display:none;
   position:fixed;
   inset:0;
-  z-index:200;
-  background:rgba(0,0,0,.85);
+  z-index:300;
+  background:rgba(0,0,0,.9);
   align-items:center;
   justify-content:center;
 }
 
 .settingsBox{
   width:90%;
-  max-width:380px;
-  padding:25px;
+  max-width:390px;
+  background:#101b26;
+  border:1px solid #34546d;
   border-radius:20px;
-  background:#101a24;
-  border:1px solid #29445b;
+  padding:25px;
   text-align:center;
 }
 
 .settingsBox h2{
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 
 .settingsBox button{
@@ -367,53 +691,61 @@ button{
 </style>
 </head>
 
+
 <body>
 
-<!-- HOME -->
+
+<!-- ================= HOME ================= -->
 
 <section id="home">
 
-  <div class="menu">
+  <div class="homeBox">
 
-    <div class="logo">🔫</div>
+    <div class="logo">🔫👽</div>
 
     <h1>GUN ACTION</h1>
 
-    <p>🎯 TARGET STRIKE</p>
+    <h2>ALIEN VS</h2>
 
     <p>
-      Hit targets, build combos and become
-      the shooting champion!
+      Fight through 10 dangerous alien rounds.
+      Defeat the final boss and become the champion!
     </p>
 
-    <button class="start" onclick="startGame()">
-      ▶ START MISSION
+    <button class="startBtn" onclick="startGame()">
+      ▶ START VS MISSION
     </button>
 
-    <div class="menu-small">
-      <button onclick="openSettings()">⚙️ Settings</button>
-      <button onclick="showHelp()">❓ Help</button>
-    </div>
+    <br>
+
+    <button class="helpBtn" onclick="showHelp()">
+      ❓ HOW TO PLAY
+    </button>
 
   </div>
 
 </section>
 
 
-<!-- GAME -->
+<!-- ================= GAME ================= -->
 
 <section id="game">
 
   <div class="topbar">
 
     <div class="stat">
-      SCORE
+      ROUND
+      <b id="round">1/10</b>
+    </div>
+
+    <div class="stat">
+      ⭐ SCORE
       <b id="score">0</b>
     </div>
 
     <div class="stat">
-      ❤️ LIVES
-      <b id="lives">5</b>
+      🪙 COINS
+      <b id="coins">0</b>
     </div>
 
     <div class="stat">
@@ -421,50 +753,146 @@ button{
       <b id="combo">0</b>
     </div>
 
-    <div class="stat">
-      LEVEL
-      <b id="level">1</b>
-    </div>
-
   </div>
 
 
   <div id="arena">
 
-    <div id="miss"></div>
+    <div id="roundBanner">
+      <b id="bannerText">ROUND 1</b>
+    </div>
 
-    <div id="crosshair"></div>
+
+    <!-- player hp -->
+
+    <div id="playerHPBox">
+
+      <div class="hpName">
+        🧑 PLAYER
+      </div>
+
+      <div class="hpBar">
+        <div id="playerHP"></div>
+      </div>
+
+    </div>
+
+
+    <!-- alien -->
+
+    <div id="alien">
+
+      <div class="antenna ant1"></div>
+      <div class="antenna ant2"></div>
+
+      <div class="alienBody">
+
+        <div class="alienEye eye1"></div>
+        <div class="alienEye eye2"></div>
+
+        <div class="alienMouth"></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- alien hp -->
+
+    <div id="alienHPBox">
+
+      <div class="hpName">
+        👽 <span id="alienName">ALIEN</span>
+      </div>
+
+      <div class="hpBar">
+        <div id="alienHP"></div>
+      </div>
+
+    </div>
+
+
+    <!-- helicopter -->
+
+    <div id="helicopter">
+
+      <div class="copterRotor"></div>
+      <div class="copterBody"></div>
+      <div class="copterGlass"></div>
+      <div class="copterTail"></div>
+
+    </div>
+
+
+    <div id="player"></div>
+
+
+    <!-- pause -->
 
     <div id="pauseScreen" class="overlay">
 
-      <h2>⏸️ PAUSED</h2>
+      <h1>⏸️ PAUSED</h1>
 
       <p>Mission paused</p>
 
-      <button onclick="pauseGame()">▶ RESUME</button>
+      <button onclick="pauseGame()">
+        ▶ RESUME
+      </button>
 
-      <button class="secondary" onclick="goHome()">
+      <button class="darkBtn" onclick="goHome()">
         🏠 HOME
       </button>
 
     </div>
 
 
-    <div id="gameOver" class="overlay">
+    <!-- victory -->
 
-      <h2>🎯 MISSION COMPLETE</h2>
+    <div id="victory" class="overlay">
 
-      <p>Final Score</p>
+      <h1>🏆 VICTORY!</h1>
 
-      <h2 id="finalScore">0</h2>
+      <h2>ALL 10 ROUNDS COMPLETE</h2>
 
-      <p>Best Score: <span id="bestScore">0</span></p>
+      <p>
+        Final Score:
+        <b id="finalScore">0</b>
+      </p>
+
+      <p>
+        Coins:
+        <b id="finalCoins">0</b>
+      </p>
 
       <button onclick="restartGame()">
         🔄 PLAY AGAIN
       </button>
 
-      <button class="secondary" onclick="goHome()">
+      <button class="darkBtn" onclick="goHome()">
+        🏠 HOME
+      </button>
+
+    </div>
+
+
+    <!-- defeat -->
+
+    <div id="defeat" class="overlay">
+
+      <h1>💀 DEFEAT</h1>
+
+      <h2>ALIEN WINS</h2>
+
+      <p>
+        You reached Round
+        <b id="lostRound">1</b>
+      </p>
+
+      <button onclick="restartGame()">
+        🔄 TRY AGAIN
+      </button>
+
+      <button class="darkBtn" onclick="goHome()">
         🏠 HOME
       </button>
 
@@ -475,12 +903,20 @@ button{
 
   <div class="bottom">
 
-    <button class="shoot" onclick="shoot()">
+    <button class="ctrlBtn" onclick="moveLeft()">
+      ◀
+    </button>
+
+    <button class="shootBtn" onclick="shoot()">
       🔫 SHOOT
     </button>
 
-    <button class="pause" onclick="pauseGame()">
-      ⏸️
+    <button class="ctrlBtn" onclick="moveRight()">
+      ▶
+    </button>
+
+    <button class="ctrlBtn" onclick="pauseGame()">
+      ⏸
     </button>
 
   </div>
@@ -488,7 +924,7 @@ button{
 </section>
 
 
-<!-- SETTINGS -->
+<!-- ================= SETTINGS ================= -->
 
 <div id="settings">
 
@@ -497,11 +933,8 @@ button{
     <h2>⚙️ SETTINGS</h2>
 
     <button onclick="toggleSound()">
-      🔊 Sound: <span id="soundText">ON</span>
-    </button>
-
-    <button onclick="changeDifficulty()">
-      🎯 Difficulty: <span id="difficultyText">NORMAL</span>
+      🔊 SOUND:
+      <span id="soundText">ON</span>
     </button>
 
     <br>
@@ -517,70 +950,103 @@ button{
 
 <script>
 
+/* ================= VARIABLES ================= */
+
+let round=1;
 let score=0;
-let lives=5;
+let coins=0;
 let combo=0;
-let level=1;
+
+let playerHP=100;
+let alienHP=100;
+
+let playerX=50;
+
 let gameRunning=false;
 let paused=false;
 let soundOn=true;
-let difficulty=1;
 
-let targetTimer;
-let levelTimer;
-
-const arena=document.getElementById("arena");
+let alienTimer;
+let coinTimer;
+let bombTimer;
 
 
-/* START */
+/* ================= ALIEN DATA ================= */
+
+const aliens=[
+  ["Alien Scout",100],
+  ["Alien Hunter",130],
+  ["Alien Warrior",160],
+  ["Alien Destroyer",200],
+  ["Alien Commander",240],
+  ["Alien Mutant",290],
+  ["Alien Guardian",340],
+  ["Alien Beast",400],
+  ["Alien Elite",470],
+  ["👑 ALIEN BOSS",600]
+];
+
+
+/* ================= ELEMENTS ================= */
+
+const arena=
+  document.getElementById("arena");
+
+const player=
+  document.getElementById("player");
+
+const alien=
+  document.getElementById("alien");
+
+const helicopter=
+  document.getElementById("helicopter");
+
+
+/* ================= START ================= */
 
 function startGame(){
 
   document.getElementById("home").style.display="none";
+
   document.getElementById("game").style.display="block";
 
+  round=1;
   score=0;
-  lives=5;
+  coins=0;
   combo=0;
-  level=1;
+  playerHP=100;
+  playerX=50;
 
   gameRunning=true;
   paused=false;
 
+  clearEverything();
+
+  createStars();
+
   updateUI();
 
-  clearAllTargets();
-  createBackground();
+  showRound();
 
-  document.getElementById("gameOver").style.display="none";
-  document.getElementById("pauseScreen").style.display="none";
-
-  targetTimer=setInterval(
-    createTarget,
-    1100
+  setTimeout(
+    startRound,
+    1000
   );
-
-  levelTimer=setInterval(
-    increaseLevel,
-    8000
-  );
-
-  createTarget();
 }
 
 
-/* BACKGROUND */
+/* ================= STARS ================= */
 
-function createBackground(){
+function createStars(){
 
-  document.querySelectorAll(".light")
+  document.querySelectorAll(".star")
     .forEach(x=>x.remove());
 
-  for(let i=0;i<45;i++){
+  for(let i=0;i<50;i++){
 
     let star=document.createElement("div");
 
-    star.className="light";
+    star.className="star";
 
     star.style.left=
       Math.random()*100+"%";
@@ -599,183 +1065,596 @@ function createBackground(){
 }
 
 
-/* TARGET */
+/* ================= ROUND ================= */
 
-function createTarget(){
+function startRound(){
 
-  if(!gameRunning || paused) return;
+  if(!gameRunning) return;
 
-  let target=document.createElement("div");
+  let data=aliens[round-1];
 
-  target.className="target";
+  alienHP=data[1];
 
-  if(Math.random()<0.15){
-    target.classList.add("bonus");
-  }
+  document.getElementById("alienName")
+    .innerText=data[0];
 
-  let size=76;
+  document.getElementById("alienHPBox")
+    .style.display="block";
 
-  let maxX=arena.clientWidth-size-10;
-  let maxY=arena.clientHeight-size-10;
+  alien.style.display="block";
 
-  target.style.left=
-    (10+Math.random()*Math.max(10,maxX-20))+"px";
+  updateAlienHP();
 
-  target.style.top=
-    (20+Math.random()*Math.max(20,maxY-40))+"px";
-
-  target.dataset.bonus=
-    target.classList.contains("bonus");
-
-  target.onclick=function(e){
-
-    e.stopPropagation();
-    hitTarget(target);
-  };
-
-  arena.appendChild(target);
-
-  let lifeTime=
-    Math.max(900,2600-(level*180));
-
-  setTimeout(()=>{
-
-    if(target.parentNode && gameRunning){
-
-      target.remove();
-
-      if(!paused){
-        missTarget();
-      }
-    }
-
-  },lifeTime);
-}
-
-
-/* HIT */
-
-function hitTarget(target){
-
-  if(!gameRunning || paused) return;
-
-  let rect=target.getBoundingClientRect();
-  let area=arena.getBoundingClientRect();
-
-  let effect=document.createElement("div");
-
-  effect.className="hit";
-
-  effect.style.left=
-    (rect.left-area.left+25)+"px";
-
-  effect.style.top=
-    (rect.top-area.top+25)+"px";
-
-  arena.appendChild(effect);
-
-  setTimeout(
-    ()=>effect.remove(),
-    400
+  alienTimer=setInterval(
+    alienAttack,
+    Math.max(700,1700-round*80)
   );
 
-  let bonus=target.dataset.bonus==="true";
+  coinTimer=setInterval(
+    createCoin,
+    5000
+  );
 
-  combo++;
+  bombTimer=setInterval(
+    createBomb,
+    7000
+  );
 
-  let points=
-    (bonus ? 50 : 10) +
-    (combo*2);
-
-  score+=points;
-
-  target.remove();
-
-  updateUI();
 }
 
 
-/* SHOOT BUTTON */
+/* ================= SHOW ROUND ================= */
+
+function showRound(){
+
+  let banner=
+    document.getElementById("roundBanner");
+
+  document.getElementById("bannerText")
+    .innerText=
+    round===10
+    ? "👑 FINAL BOSS - ROUND 10"
+    : "ROUND "+round;
+
+  banner.classList.remove("show");
+
+  void banner.offsetWidth;
+
+  banner.classList.add("show");
+}
+
+
+/* ================= PLAYER MOVE ================= */
+
+function moveLeft(){
+
+  if(!gameRunning || paused) return;
+
+  playerX-=8;
+
+  if(playerX<15)
+    playerX=15;
+
+  player.style.left=
+    playerX+"%";
+
+  helicopter.style.left=
+    playerX+"%";
+}
+
+
+function moveRight(){
+
+  if(!gameRunning || paused) return;
+
+  playerX+=8;
+
+  if(playerX>85)
+    playerX=85;
+
+  player.style.left=
+    playerX+"%";
+
+  helicopter.style.left=
+    playerX+"%";
+}
+
+
+/* ================= SHOOT ================= */
 
 function shoot(){
 
   if(!gameRunning || paused) return;
 
-  let targets=
-    [...document.querySelectorAll(".target")];
+  createBullet();
 
-  if(targets.length){
+}
 
-    targets.sort((a,b)=>{
 
-      return parseInt(
-        b.dataset.bonus==="true"
-      ) -
-      parseInt(
-        a.dataset.bonus==="true"
-      );
+/* ================= PLAYER BULLET ================= */
 
-    });
+function createBullet(){
 
-    hitTarget(targets[0]);
+  let bullet=document.createElement("div");
+
+  bullet.className="bullet";
+
+  let playerRect=
+    player.getBoundingClientRect();
+
+  let arenaRect=
+    arena.getBoundingClientRect();
+
+  let x=
+    playerRect.left-
+    arenaRect.left+
+    playerRect.width/2-3;
+
+  let y=
+    playerRect.top-
+    arenaRect.top;
+
+  bullet.style.left=x+"px";
+  bullet.style.top=y+"px";
+
+  arena.appendChild(bullet);
+
+  let pos=y;
+
+  let timer=setInterval(()=>{
+
+    if(!gameRunning){
+
+      clearInterval(timer);
+      bullet.remove();
+      return;
+    }
+
+    if(paused) return;
+
+    pos-=12;
+
+    bullet.style.top=pos+"px";
+
+    let b=bullet.getBoundingClientRect();
+    let a=alien.getBoundingClientRect();
+
+    if(
+      alien.style.display!=="none" &&
+      b.left<a.right &&
+      b.right>a.left &&
+      b.top<a.bottom &&
+      b.bottom>a.top
+    ){
+
+      clearInterval(timer);
+
+      bullet.remove();
+
+      damageAlien(15);
+
+    }
+
+    if(pos<-30){
+
+      clearInterval(timer);
+      bullet.remove();
+
+    }
+
+  },25);
+}
+
+
+/* ================= ALIEN DAMAGE ================= */
+
+function damageAlien(amount){
+
+  alienHP-=amount;
+
+  combo++;
+
+  score+=
+    10+(combo*2);
+
+  createExplosion(
+    alien.offsetLeft+40,
+    alien.offsetTop+50
+  );
+
+  if(combo>=3){
+
+    createComboText(
+      "🔥 COMBO x"+combo
+    );
+
+  }
+
+  updateAlienHP();
+  updateUI();
+
+  if(alienHP<=0){
+
+    defeatAlien();
+
+  }
+}
+
+
+/* ================= ALIEN DEFEATED ================= */
+
+function defeatAlien(){
+
+  clearInterval(alienTimer);
+  clearInterval(coinTimer);
+  clearInterval(bombTimer);
+
+  createExplosion(
+    alien.offsetLeft+40,
+    alien.offsetTop+50
+  );
+
+  createExplosion(
+    alien.offsetLeft+10,
+    alien.offsetTop+30
+  );
+
+  createExplosion(
+    alien.offsetLeft+70,
+    alien.offsetTop+60
+  );
+
+  coins+=
+    10+round*5;
+
+  score+=
+    100+round*50;
+
+  alien.style.display="none";
+
+  updateUI();
+
+  if(round>=10){
+
+    setTimeout(
+      victory,
+      900
+    );
 
   }else{
 
-    missTarget();
+    round++;
+
+    playerHP=
+      Math.min(100,playerHP+20);
+
+    updateUI();
+
+    setTimeout(()=>{
+
+      showRound();
+
+      setTimeout(
+        startRound,
+        1200
+      );
+
+    },900);
 
   }
 }
 
 
-/* MISS */
+/* ================= ALIEN ATTACK ================= */
 
-function missTarget(){
+function alienAttack(){
 
   if(!gameRunning || paused) return;
+
+  let bullet=document.createElement("div");
+
+  bullet.className=
+    "bullet alienBullet";
+
+  let a=
+    alien.getBoundingClientRect();
+
+  let ar=
+    arena.getBoundingClientRect();
+
+  let x=
+    a.left-ar.left+
+    a.width/2-3;
+
+  let y=
+    a.bottom-ar.top;
+
+  bullet.style.left=x+"px";
+  bullet.style.top=y+"px";
+
+  arena.appendChild(bullet);
+
+  let pos=y;
+
+  let timer=setInterval(()=>{
+
+    if(!gameRunning){
+
+      clearInterval(timer);
+      bullet.remove();
+      return;
+    }
+
+    if(paused) return;
+
+    pos+=8+round*.4;
+
+    bullet.style.top=pos+"px";
+
+    let b=
+      bullet.getBoundingClientRect();
+
+    let p=
+      player.getBoundingClientRect();
+
+    if(
+      b.left<p.right &&
+      b.right>p.left &&
+      b.top<p.bottom &&
+      b.bottom>p.top
+    ){
+
+      clearInterval(timer);
+
+      bullet.remove();
+
+      damagePlayer(
+        5+round
+      );
+
+    }
+
+    if(pos>arena.clientHeight+30){
+
+      clearInterval(timer);
+      bullet.remove();
+
+    }
+
+  },25);
+}
+
+
+/* ================= PLAYER DAMAGE ================= */
+
+function damagePlayer(amount){
+
+  playerHP-=amount;
 
   combo=0;
-  lives--;
 
-  document.getElementById("miss")
-    .classList.remove("missFlash");
-
-  void document.getElementById("miss").offsetWidth;
-
-  document.getElementById("miss")
-    .classList.add("missFlash");
+  createExplosion(
+    player.offsetLeft+50,
+    player.offsetTop+25
+  );
 
   updateUI();
 
-  if(lives<=0){
-    endGame();
+  if(playerHP<=0){
+
+    defeat();
+
   }
 }
 
 
-/* LEVEL */
+/* ================= COINS ================= */
 
-function increaseLevel(){
+function createCoin(){
 
   if(!gameRunning || paused) return;
 
-  level++;
+  let coin=document.createElement("div");
 
-  updateUI();
+  coin.className="coin";
+
+  coin.innerText="🪙";
+
+  coin.style.left=
+    (10+Math.random()*80)+"%";
+
+  coin.style.top=
+    (35+Math.random()*35)+"%";
+
+  arena.appendChild(coin);
+
+  coin.onclick=function(){
+
+    coins+=5;
+
+    score+=25;
+
+    coin.remove();
+
+    updateUI();
+
+  };
+
+  setTimeout(()=>{
+
+    if(coin.parentNode)
+      coin.remove();
+
+  },3000);
 }
 
 
-/* UI */
+/* ================= BOMB ================= */
+
+function createBomb(){
+
+  if(!gameRunning || paused) return;
+
+  let bomb=document.createElement("div");
+
+  bomb.className="bomb";
+
+  bomb.innerText="💣";
+
+  bomb.style.left=
+    (10+Math.random()*80)+"%";
+
+  bomb.style.top=
+    (25+Math.random()*45)+"%";
+
+  arena.appendChild(bomb);
+
+  bomb.onclick=function(){
+
+    createExplosion(
+      bomb.offsetLeft,
+      bomb.offsetTop
+    );
+
+    damageAlien(35);
+
+    bomb.remove();
+
+  };
+
+  setTimeout(()=>{
+
+    if(bomb.parentNode){
+
+      bomb.remove();
+
+      damagePlayer(12);
+
+    }
+
+  },4000);
+}
+
+
+/* ================= EXPLOSION ================= */
+
+function createExplosion(x,y){
+
+  let boom=document.createElement("div");
+
+  boom.className="explosion";
+
+  boom.style.left=x+"px";
+  boom.style.top=y+"px";
+
+  arena.appendChild(boom);
+
+  setTimeout(
+    ()=>boom.remove(),
+    600
+  );
+}
+
+
+/* ================= COMBO ================= */
+
+function createComboText(text){
+
+  let t=document.createElement("div");
+
+  t.className="comboText";
+
+  t.innerText=text;
+
+  t.style.left=
+    (player.offsetLeft)+"px";
+
+  t.style.top=
+    (player.offsetTop-50)+"px";
+
+  arena.appendChild(t);
+
+  setTimeout(
+    ()=>t.remove(),
+    900
+  );
+}
+
+
+/* ================= HP ================= */
+
+function updateAlienHP(){
+
+  let maxHP=
+    aliens[round-1][1];
+
+  let percent=
+    Math.max(0,(alienHP/maxHP)*100);
+
+  document.getElementById("alienHP")
+    .style.width=percent+"%";
+}
+
+
+/* ================= UI ================= */
 
 function updateUI(){
 
-  document.getElementById("score").innerText=score;
-  document.getElementById("lives").innerText=lives;
-  document.getElementById("combo").innerText=combo;
-  document.getElementById("level").innerText=level;
+  document.getElementById("round")
+    .innerText=
+    round+"/10";
+
+  document.getElementById("score")
+    .innerText=score;
+
+  document.getElementById("coins")
+    .innerText=coins;
+
+  document.getElementById("combo")
+    .innerText=combo;
+
+  document.getElementById("playerHP")
+    .style.width=
+    Math.max(0,playerHP)+"%";
 }
 
 
-/* PAUSE */
+/* ================= VICTORY ================= */
+
+function victory(){
+
+  gameRunning=false;
+
+  clearEverything();
+
+  document.getElementById("finalScore")
+    .innerText=score;
+
+  document.getElementById("finalCoins")
+    .innerText=coins;
+
+  document.getElementById("victory")
+    .style.display="flex";
+}
+
+
+/* ================= DEFEAT ================= */
+
+function defeat(){
+
+  gameRunning=false;
+
+  clearEverything();
+
+  document.getElementById("lostRound")
+    .innerText=round;
+
+  document.getElementById("defeat")
+    .style.display="flex";
+}
+
+
+/* ================= PAUSE ================= */
 
 function pauseGame(){
 
@@ -783,184 +1662,140 @@ function pauseGame(){
 
   paused=!paused;
 
-  document.getElementById("pauseScreen").style.display=
+  document.getElementById("pauseScreen")
+    .style.display=
     paused ? "flex" : "none";
 }
 
 
-/* END */
-
-function endGame(){
-
-  gameRunning=false;
-
-  clearInterval(targetTimer);
-  clearInterval(levelTimer);
-
-  clearAllTargets();
-
-  document.getElementById("finalScore").innerText=score;
-
-  let best=
-    Number(localStorage.getItem("gunBest")||0);
-
-  if(score>best){
-
-    best=score;
-
-    localStorage.setItem(
-      "gunBest",
-      best
-    );
-  }
-
-  document.getElementById("bestScore").innerText=best;
-
-  document.getElementById("gameOver").style.display="flex";
-}
-
-
-/* RESTART */
+/* ================= RESTART ================= */
 
 function restartGame(){
 
-  clearAllTargets();
+  clearEverything();
+
+  document.getElementById("victory")
+    .style.display="none";
+
+  document.getElementById("defeat")
+    .style.display="none";
 
   startGame();
 }
 
 
-/* CLEAR */
-
-function clearAllTargets(){
-
-  document.querySelectorAll(".target")
-    .forEach(x=>x.remove());
-}
-
-
-/* HOME */
+/* ================= HOME ================= */
 
 function goHome(){
 
   gameRunning=false;
 
-  clearInterval(targetTimer);
-  clearInterval(levelTimer);
+  clearEverything();
 
-  clearAllTargets();
+  document.getElementById("game")
+    .style.display="none";
 
-  document.getElementById("game").style.display="none";
-  document.getElementById("home").style.display="flex";
+  document.getElementById("home")
+    .style.display="flex";
+
+  document.getElementById("victory")
+    .style.display="none";
+
+  document.getElementById("defeat")
+    .style.display="none";
 }
 
 
-/* SETTINGS */
+/* ================= CLEAR ================= */
 
-function openSettings(){
+function clearEverything(){
 
-  document.getElementById("settings").style.display="flex";
-}
+  clearInterval(alienTimer);
+  clearInterval(coinTimer);
+  clearInterval(bombTimer);
 
-function closeSettings(){
+  document.querySelectorAll(
+    ".bullet,.coin,.bomb,.explosion,.comboText"
+  ).forEach(x=>x.remove());
 
-  document.getElementById("settings").style.display="none";
-}
-
-function toggleSound(){
-
-  soundOn=!soundOn;
-
-  document.getElementById("soundText").innerText=
-    soundOn ? "ON" : "OFF";
-}
-
-function changeDifficulty(){
-
-  difficulty++;
-
-  if(difficulty>3)
-    difficulty=1;
-
-  let names=[
-    "",
-    "EASY",
-    "NORMAL",
-    "HARD"
-  ];
-
-  document.getElementById("difficultyText")
-    .innerText=names[difficulty];
 }
 
 
-/* HELP */
+/* ================= HELP ================= */
 
 function showHelp(){
 
   alert(
-    "🎯 HOW TO PLAY\n\n"+
-    "Tap a target to hit it.\n"+
-    "Use SHOOT to fire.\n"+
-    "Hit targets quickly to build a combo.\n"+
-    "Missing targets costs lives.\n"+
-    "Red targets = 10+ points.\n"+
-    "Gold targets = bonus points."
+    "🎮 HOW TO PLAY\\n\\n"+
+    "🔫 SHOOT = fire at the Alien\\n"+
+    "◀ ▶ = move your helicopter\\n"+
+    "🪙 Collect coins for bonus points\\n"+
+    "💣 Shoot bombs carefully\\n"+
+    "🔥 Build combos for more score\\n"+
+    "❤️ Protect your HP\\n"+
+    "👑 Defeat the Boss in Round 10!"
   );
 }
 
 
-/* CROSSHAIR */
+/* ================= KEYBOARD ================= */
 
-arena.addEventListener("pointermove",function(e){
+document.addEventListener(
+  "keydown",
+  function(e){
 
-  let rect=arena.getBoundingClientRect();
+    if(e.key==="ArrowLeft")
+      moveLeft();
 
-  let x=e.clientX-rect.left;
-  let y=e.clientY-rect.top;
+    if(e.key==="ArrowRight")
+      moveRight();
 
-  document.getElementById("crosshair")
-    .style.left=x+"px";
+    if(e.code==="Space"){
+      e.preventDefault();
+      shoot();
+    }
 
-  document.getElementById("crosshair")
-    .style.top=y+"px";
-});
+    if(e.key==="Escape")
+      pauseGame();
 
-
-/* KEYBOARD */
-
-document.addEventListener("keydown",function(e){
-
-  if(e.code==="Space"){
-
-    e.preventDefault();
-    shoot();
   }
-
-  if(e.key==="Escape"){
-
-    pauseGame();
-  }
-});
+);
 
 
-/* ARENA MISS */
+/* ================= TOUCH SWIPE ================= */
 
-arena.addEventListener("click",function(e){
+let touchStart=0;
 
-  if(!gameRunning || paused) return;
+arena.addEventListener(
+  "touchstart",
+  function(e){
 
-  if(e.target.classList.contains("target")) return;
+    touchStart=
+      e.touches[0].clientX;
 
-  if(
-    e.target.id==="arena" ||
-    e.target.id==="miss" ||
-    e.target.classList.contains("light")
-  ){
+  },
+  {passive:true}
+);
 
-    missTarget();
-  }
-});
+arena.addEventListener(
+  "touchend",
+  function(e){
+
+    let end=
+      e.changedTouches[0].clientX;
+
+    let difference=
+      end-touchStart;
+
+    if(difference>30)
+      moveRight();
+
+    if(difference<-30)
+      moveLeft();
+
+  },
+  {passive:true}
+);
 
 </script>
 
