@@ -1,1 +1,968 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Gun Action - Target Strike</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#05080d;
+  color:#fff;
+  overflow:hidden;
+  touch-action:none;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  font-weight:bold;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* HOME */
+
+#home{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 50% 20%,#18334b 0,#071018 45%,#030507 100%);
+}
+
+.menu{
+  width:100%;
+  max-width:430px;
+  text-align:center;
+  padding:30px 20px;
+  border:1px solid #29445b;
+  border-radius:25px;
+  background:rgba(10,18,27,.92);
+  box-shadow:0 15px 50px #000;
+}
+
+.logo{
+  font-size:48px;
+  margin-bottom:5px;
+}
+
+.menu h1{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.menu p{
+  color:#9fb0bf;
+  margin-bottom:25px;
+}
+
+.start{
+  width:90%;
+  padding:16px;
+  background:#1687ff;
+  font-size:19px;
+  box-shadow:0 0 25px rgba(22,135,255,.35);
+}
+
+.menu-small{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.menu-small button{
+  background:#172432;
+  padding:11px 15px;
+}
+
+/* GAME */
+
+#game{
+  display:none;
+  height:100vh;
+  background:#050a10;
+}
+
+.topbar{
+  height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  background:#09121b;
+  border-bottom:1px solid #29445b;
+  position:relative;
+  z-index:20;
+}
+
+.stat{
+  font-size:14px;
+  color:#9fb0bf;
+}
+
+.stat b{
+  display:block;
+  color:#fff;
+  font-size:18px;
+}
+
+#arena{
+  position:relative;
+  width:100%;
+  max-width:520px;
+  height:calc(100vh - 132px);
+  margin:auto;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 50%,#172838,#081018 65%,#030507);
+}
+
+/* background lights */
+
+.light{
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#fff;
+  opacity:.6;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  from{transform:translateY(-20px)}
+  to{transform:translateY(800px)}
+}
+
+/* TARGET */
+
+.target{
+  position:absolute;
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  background:#d71920;
+  border:7px solid #fff;
+  box-shadow:
+    0 0 0 5px #d71920,
+    0 0 25px rgba(255,50,50,.55);
+  z-index:5;
+  animation:floatTarget .8s infinite alternate;
+}
+
+.target:before{
+  content:"";
+  position:absolute;
+  width:42px;
+  height:42px;
+  left:10px;
+  top:10px;
+  border-radius:50%;
+  border:5px solid #fff;
+}
+
+.target:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:22px;
+  top:22px;
+  border-radius:50%;
+  background:#111;
+}
+
+@keyframes floatTarget{
+  from{transform:scale(.9) rotate(-3deg)}
+  to{transform:scale(1.08) rotate(3deg)}
+}
+
+/* BONUS TARGET */
+
+.bonus{
+  background:#f5b400;
+  box-shadow:
+    0 0 0 5px #f5b400,
+    0 0 30px rgba(255,190,0,.7);
+}
+
+/* HIT EFFECT */
+
+.hit{
+  position:absolute;
+  width:25px;
+  height:25px;
+  border:4px solid #ffd54f;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:30;
+  animation:hit .4s forwards;
+}
+
+@keyframes hit{
+  from{
+    transform:scale(.3);
+    opacity:1;
+  }
+  to{
+    transform:scale(4);
+    opacity:0;
+  }
+}
+
+/* MISS FLASH */
+
+#miss{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:#ff0000;
+  opacity:0;
+  z-index:2;
+}
+
+.missFlash{
+  animation:miss .2s;
+}
+
+@keyframes miss{
+  0%{opacity:.25}
+  100%{opacity:0}
+}
+
+/* BOTTOM */
+
+.bottom{
+  height:70px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  background:#09121b;
+  border-top:1px solid #29445b;
+}
+
+.shoot{
+  width:145px;
+  height:52px;
+  background:#1687ff;
+  font-size:18px;
+  box-shadow:0 0 20px rgba(22,135,255,.3);
+}
+
+.pause{
+  width:90px;
+  height:52px;
+  background:#172432;
+}
+
+/* CROSSHAIR */
+
+#crosshair{
+  position:absolute;
+  width:42px;
+  height:42px;
+  border:2px solid rgba(255,255,255,.55);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:40;
+}
+
+#crosshair:before,
+#crosshair:after{
+  content:"";
+  position:absolute;
+  background:#fff;
+  opacity:.7;
+}
+
+#crosshair:before{
+  width:2px;
+  height:58px;
+  left:18px;
+  top:-10px;
+}
+
+#crosshair:after{
+  width:58px;
+  height:2px;
+  left:-10px;
+  top:18px;
+}
+
+/* OVERLAYS */
+
+.overlay{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.88);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+}
+
+.overlay h2{
+  font-size:38px;
+  margin-bottom:12px;
+}
+
+.overlay p{
+  color:#b7c4cf;
+  margin:5px;
+}
+
+.overlay button{
+  margin:7px;
+  padding:13px 24px;
+  background:#1687ff;
+}
+
+.secondary{
+  background:#263646!important;
+}
+
+/* SETTINGS */
+
+#settings{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(0,0,0,.85);
+  align-items:center;
+  justify-content:center;
+}
+
+.settingsBox{
+  width:90%;
+  max-width:380px;
+  padding:25px;
+  border-radius:20px;
+  background:#101a24;
+  border:1px solid #29445b;
+  text-align:center;
+}
+
+.settingsBox h2{
+  margin-bottom:20px;
+}
+
+.settingsBox button{
+  padding:13px 20px;
+  margin:6px;
+  background:#1687ff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+
+<section id="home">
+
+  <div class="menu">
+
+    <div class="logo">🔫</div>
+
+    <h1>GUN ACTION</h1>
+
+    <p>🎯 TARGET STRIKE</p>
+
+    <p>
+      Hit targets, build combos and become
+      the shooting champion!
+    </p>
+
+    <button class="start" onclick="startGame()">
+      ▶ START MISSION
+    </button>
+
+    <div class="menu-small">
+      <button onclick="openSettings()">⚙️ Settings</button>
+      <button onclick="showHelp()">❓ Help</button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- GAME -->
+
+<section id="game">
+
+  <div class="topbar">
+
+    <div class="stat">
+      SCORE
+      <b id="score">0</b>
+    </div>
+
+    <div class="stat">
+      ❤️ LIVES
+      <b id="lives">5</b>
+    </div>
+
+    <div class="stat">
+      🔥 COMBO
+      <b id="combo">0</b>
+    </div>
+
+    <div class="stat">
+      LEVEL
+      <b id="level">1</b>
+    </div>
+
+  </div>
+
+
+  <div id="arena">
+
+    <div id="miss"></div>
+
+    <div id="crosshair"></div>
+
+    <div id="pauseScreen" class="overlay">
+
+      <h2>⏸️ PAUSED</h2>
+
+      <p>Mission paused</p>
+
+      <button onclick="pauseGame()">▶ RESUME</button>
+
+      <button class="secondary" onclick="goHome()">
+        🏠 HOME
+      </button>
+
+    </div>
+
+
+    <div id="gameOver" class="overlay">
+
+      <h2>🎯 MISSION COMPLETE</h2>
+
+      <p>Final Score</p>
+
+      <h2 id="finalScore">0</h2>
+
+      <p>Best Score: <span id="bestScore">0</span></p>
+
+      <button onclick="restartGame()">
+        🔄 PLAY AGAIN
+      </button>
+
+      <button class="secondary" onclick="goHome()">
+        🏠 HOME
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="bottom">
+
+    <button class="shoot" onclick="shoot()">
+      🔫 SHOOT
+    </button>
+
+    <button class="pause" onclick="pauseGame()">
+      ⏸️
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<div id="settings">
+
+  <div class="settingsBox">
+
+    <h2>⚙️ SETTINGS</h2>
+
+    <button onclick="toggleSound()">
+      🔊 Sound: <span id="soundText">ON</span>
+    </button>
+
+    <button onclick="changeDifficulty()">
+      🎯 Difficulty: <span id="difficultyText">NORMAL</span>
+    </button>
+
+    <br>
+
+    <button onclick="closeSettings()">
+      CLOSE
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let score=0;
+let lives=5;
+let combo=0;
+let level=1;
+let gameRunning=false;
+let paused=false;
+let soundOn=true;
+let difficulty=1;
+
+let targetTimer;
+let levelTimer;
+
+const arena=document.getElementById("arena");
+
+
+/* START */
+
+function startGame(){
+
+  document.getElementById("home").style.display="none";
+  document.getElementById("game").style.display="block";
+
+  score=0;
+  lives=5;
+  combo=0;
+  level=1;
+
+  gameRunning=true;
+  paused=false;
+
+  updateUI();
+
+  clearAllTargets();
+  createBackground();
+
+  document.getElementById("gameOver").style.display="none";
+  document.getElementById("pauseScreen").style.display="none";
+
+  targetTimer=setInterval(
+    createTarget,
+    1100
+  );
+
+  levelTimer=setInterval(
+    increaseLevel,
+    8000
+  );
+
+  createTarget();
+}
+
+
+/* BACKGROUND */
+
+function createBackground(){
+
+  document.querySelectorAll(".light")
+    .forEach(x=>x.remove());
+
+  for(let i=0;i<45;i++){
+
+    let star=document.createElement("div");
+
+    star.className="light";
+
+    star.style.left=
+      Math.random()*100+"%";
+
+    star.style.top=
+      Math.random()*100+"%";
+
+    star.style.animationDuration=
+      (1.5+Math.random()*3)+"s";
+
+    star.style.animationDelay=
+      Math.random()*2+"s";
+
+    arena.appendChild(star);
+  }
+}
+
+
+/* TARGET */
+
+function createTarget(){
+
+  if(!gameRunning || paused) return;
+
+  let target=document.createElement("div");
+
+  target.className="target";
+
+  if(Math.random()<0.15){
+    target.classList.add("bonus");
+  }
+
+  let size=76;
+
+  let maxX=arena.clientWidth-size-10;
+  let maxY=arena.clientHeight-size-10;
+
+  target.style.left=
+    (10+Math.random()*Math.max(10,maxX-20))+"px";
+
+  target.style.top=
+    (20+Math.random()*Math.max(20,maxY-40))+"px";
+
+  target.dataset.bonus=
+    target.classList.contains("bonus");
+
+  target.onclick=function(e){
+
+    e.stopPropagation();
+    hitTarget(target);
+  };
+
+  arena.appendChild(target);
+
+  let lifeTime=
+    Math.max(900,2600-(level*180));
+
+  setTimeout(()=>{
+
+    if(target.parentNode && gameRunning){
+
+      target.remove();
+
+      if(!paused){
+        missTarget();
+      }
+    }
+
+  },lifeTime);
+}
+
+
+/* HIT */
+
+function hitTarget(target){
+
+  if(!gameRunning || paused) return;
+
+  let rect=target.getBoundingClientRect();
+  let area=arena.getBoundingClientRect();
+
+  let effect=document.createElement("div");
+
+  effect.className="hit";
+
+  effect.style.left=
+    (rect.left-area.left+25)+"px";
+
+  effect.style.top=
+    (rect.top-area.top+25)+"px";
+
+  arena.appendChild(effect);
+
+  setTimeout(
+    ()=>effect.remove(),
+    400
+  );
+
+  let bonus=target.dataset.bonus==="true";
+
+  combo++;
+
+  let points=
+    (bonus ? 50 : 10) +
+    (combo*2);
+
+  score+=points;
+
+  target.remove();
+
+  updateUI();
+}
+
+
+/* SHOOT BUTTON */
+
+function shoot(){
+
+  if(!gameRunning || paused) return;
+
+  let targets=
+    [...document.querySelectorAll(".target")];
+
+  if(targets.length){
+
+    targets.sort((a,b)=>{
+
+      return parseInt(
+        b.dataset.bonus==="true"
+      ) -
+      parseInt(
+        a.dataset.bonus==="true"
+      );
+
+    });
+
+    hitTarget(targets[0]);
+
+  }else{
+
+    missTarget();
+
+  }
+}
+
+
+/* MISS */
+
+function missTarget(){
+
+  if(!gameRunning || paused) return;
+
+  combo=0;
+  lives--;
+
+  document.getElementById("miss")
+    .classList.remove("missFlash");
+
+  void document.getElementById("miss").offsetWidth;
+
+  document.getElementById("miss")
+    .classList.add("missFlash");
+
+  updateUI();
+
+  if(lives<=0){
+    endGame();
+  }
+}
+
+
+/* LEVEL */
+
+function increaseLevel(){
+
+  if(!gameRunning || paused) return;
+
+  level++;
+
+  updateUI();
+}
+
+
+/* UI */
+
+function updateUI(){
+
+  document.getElementById("score").innerText=score;
+  document.getElementById("lives").innerText=lives;
+  document.getElementById("combo").innerText=combo;
+  document.getElementById("level").innerText=level;
+}
+
+
+/* PAUSE */
+
+function pauseGame(){
+
+  if(!gameRunning) return;
+
+  paused=!paused;
+
+  document.getElementById("pauseScreen").style.display=
+    paused ? "flex" : "none";
+}
+
+
+/* END */
+
+function endGame(){
+
+  gameRunning=false;
+
+  clearInterval(targetTimer);
+  clearInterval(levelTimer);
+
+  clearAllTargets();
+
+  document.getElementById("finalScore").innerText=score;
+
+  let best=
+    Number(localStorage.getItem("gunBest")||0);
+
+  if(score>best){
+
+    best=score;
+
+    localStorage.setItem(
+      "gunBest",
+      best
+    );
+  }
+
+  document.getElementById("bestScore").innerText=best;
+
+  document.getElementById("gameOver").style.display="flex";
+}
+
+
+/* RESTART */
+
+function restartGame(){
+
+  clearAllTargets();
+
+  startGame();
+}
+
+
+/* CLEAR */
+
+function clearAllTargets(){
+
+  document.querySelectorAll(".target")
+    .forEach(x=>x.remove());
+}
+
+
+/* HOME */
+
+function goHome(){
+
+  gameRunning=false;
+
+  clearInterval(targetTimer);
+  clearInterval(levelTimer);
+
+  clearAllTargets();
+
+  document.getElementById("game").style.display="none";
+  document.getElementById("home").style.display="flex";
+}
+
+
+/* SETTINGS */
+
+function openSettings(){
+
+  document.getElementById("settings").style.display="flex";
+}
+
+function closeSettings(){
+
+  document.getElementById("settings").style.display="none";
+}
+
+function toggleSound(){
+
+  soundOn=!soundOn;
+
+  document.getElementById("soundText").innerText=
+    soundOn ? "ON" : "OFF";
+}
+
+function changeDifficulty(){
+
+  difficulty++;
+
+  if(difficulty>3)
+    difficulty=1;
+
+  let names=[
+    "",
+    "EASY",
+    "NORMAL",
+    "HARD"
+  ];
+
+  document.getElementById("difficultyText")
+    .innerText=names[difficulty];
+}
+
+
+/* HELP */
+
+function showHelp(){
+
+  alert(
+    "🎯 HOW TO PLAY\n\n"+
+    "Tap a target to hit it.\n"+
+    "Use SHOOT to fire.\n"+
+    "Hit targets quickly to build a combo.\n"+
+    "Missing targets costs lives.\n"+
+    "Red targets = 10+ points.\n"+
+    "Gold targets = bonus points."
+  );
+}
+
+
+/* CROSSHAIR */
+
+arena.addEventListener("pointermove",function(e){
+
+  let rect=arena.getBoundingClientRect();
+
+  let x=e.clientX-rect.left;
+  let y=e.clientY-rect.top;
+
+  document.getElementById("crosshair")
+    .style.left=x+"px";
+
+  document.getElementById("crosshair")
+    .style.top=y+"px";
+});
+
+
+/* KEYBOARD */
+
+document.addEventListener("keydown",function(e){
+
+  if(e.code==="Space"){
+
+    e.preventDefault();
+    shoot();
+  }
+
+  if(e.key==="Escape"){
+
+    pauseGame();
+  }
+});
+
+
+/* ARENA MISS */
+
+arena.addEventListener("click",function(e){
+
+  if(!gameRunning || paused) return;
+
+  if(e.target.classList.contains("target")) return;
+
+  if(
+    e.target.id==="arena" ||
+    e.target.id==="miss" ||
+    e.target.classList.contains("light")
+  ){
+
+    missTarget();
+  }
+});
+
+</script>
+
+</body>
+</html>
