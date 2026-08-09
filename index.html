@@ -1,3 +1,1208 @@
-<
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="AI Farmer - Smart farming assistant for crop care, weather, mandi prices, calculators and farming guidance.">
+<meta name="theme-color" content="#0f7a3b">
+
+<!-- Basic browser-side security policy -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https:; font-src 'self' https:;">
+
+<title>AI Farmer | Smart Farming Assistant</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+  --green:#0f7a3b;
+  --green2:#19a957;
+  --light:#f3f8f4;
+  --dark:#102018;
+  --text:#203028;
+  --muted:#718078;
+  --card:#ffffff;
+  --border:#e3ebe5;
+  --shadow:0 10px 30px rgba(20,60,35,.08);
+}
+
+body{
+  background:var(--light);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.app{
+  max-width:1200px;
+  margin:auto;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#0b6732,#19a957);
+  color:white;
+  padding:20px;
+  border-radius:0 0 28px 28px;
+  box-shadow:var(--shadow);
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-icon{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  background:rgba(255,255,255,.18);
+  display:grid;
+  place-items:center;
+  font-size:27px;
+}
+
+.logo h1{
+  font-size:21px;
+}
+
+.logo p{
+  font-size:12px;
+  opacity:.85;
+  margin-top:3px;
+}
+
+.profile{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:white;
+  color:var(--green);
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+}
+
+/* HERO */
+.hero{
+  margin-top:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.hero h2{
+  font-size:29px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  opacity:.9;
+  line-height:1.5;
+}
+
+.weather-mini{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.2);
+  padding:15px;
+  border-radius:18px;
+  min-width:145px;
+}
+
+.weather-mini strong{
+  display:block;
+  font-size:24px;
+  margin-bottom:4px;
+}
+
+/* MAIN */
+main{
+  padding:22px 15px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:18px 0 13px;
+}
+
+.section-title h3{
+  font-size:20px;
+}
+
+.section-title span{
+  color:var(--green);
+  font-size:13px;
+  font-weight:bold;
+}
+
+/* QUICK ACTIONS */
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.quick{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:17px 10px;
+  text-align:center;
+  box-shadow:var(--shadow);
+  transition:.2s;
+}
+
+.quick:hover{
+  transform:translateY(-3px);
+}
+
+.quick-icon{
+  width:47px;
+  height:47px;
+  border-radius:15px;
+  margin:auto auto 10px;
+  display:grid;
+  place-items:center;
+  background:#eaf7ef;
+  font-size:23px;
+}
+
+.quick b{
+  font-size:13px;
+}
+
+/* AI CARD */
+.ai-card{
+  margin-top:22px;
+  background:linear-gradient(135deg,#103d25,#176c3c);
+  color:white;
+  padding:21px;
+  border-radius:24px;
+  box-shadow:var(--shadow);
+}
+
+.ai-head{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.ai-icon{
+  width:52px;
+  height:52px;
+  border-radius:17px;
+  background:rgba(255,255,255,.13);
+  display:grid;
+  place-items:center;
+  font-size:27px;
+}
+
+.ai-card h3{
+  font-size:20px;
+}
+
+.ai-card p{
+  margin-top:4px;
+  font-size:13px;
+  opacity:.82;
+}
+
+.ai-input{
+  margin-top:17px;
+  display:flex;
+  background:white;
+  border-radius:15px;
+  padding:5px;
+}
+
+.ai-input input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  padding:12px;
+  color:#222;
+}
+
+.ai-input button{
+  background:var(--green2);
+  color:white;
+  padding:0 17px;
+  border-radius:11px;
+  font-weight:bold;
+}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.card-icon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:#eaf7ef;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+}
+
+.card h4{
+  margin-top:14px;
+  font-size:17px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  margin-top:6px;
+}
+
+.action{
+  margin-top:15px;
+  width:100%;
+  padding:11px;
+  border-radius:12px;
+  background:#edf8f0;
+  color:var(--green);
+  font-weight:bold;
+}
+
+/* WEATHER */
+.weather-card{
+  background:white;
+  border-radius:21px;
+  padding:20px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.weather-main{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.temp{
+  font-size:38px;
+  font-weight:bold;
+}
+
+.weather-details{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.weather-detail{
+  background:#f5f8f6;
+  padding:12px;
+  border-radius:14px;
+  text-align:center;
+}
+
+.weather-detail small{
+  display:block;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:50;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:min(650px,100%);
+  border-radius:27px 27px 0 0;
+  padding:22px;
+  max-height:85vh;
+  overflow:auto;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#edf2ee;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  outline:0;
+}
+
+.primary{
+  width:100%;
+  background:var(--green);
+  color:white;
+  padding:13px;
+  border-radius:13px;
+  font-weight:bold;
+}
+
+/* CROP DOCTOR */
+.upload{
+  border:2px dashed #b8d8c3;
+  border-radius:18px;
+  padding:30px 15px;
+  text-align:center;
+  background:#f7fbf8;
+}
+
+.upload input{
+  margin-top:15px;
+  max-width:100%;
+}
+
+.result{
+  margin-top:15px;
+  padding:15px;
+  border-radius:15px;
+  background:#eef8f1;
+  display:none;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(600px,94%);
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(15px);
+  border:1px solid var(--border);
+  box-shadow:0 12px 35px rgba(0,0,0,.12);
+  border-radius:22px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px;
+  z-index:40;
+}
+
+.nav-btn{
+  background:transparent;
+  padding:8px 4px;
+  color:#718078;
+  border-radius:15px;
+  font-size:11px;
+}
+
+.nav-btn.active{
+  background:#eaf7ef;
+  color:var(--green);
+  font-weight:bold;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%) translateY(-120px);
+  background:#12251a;
+  color:white;
+  padding:12px 18px;
+  border-radius:14px;
+  z-index:100;
+  transition:.3s;
+  font-size:13px;
+}
+
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .weather-mini{
+    width:100%;
+  }
+
+  .hero h2{
+    font-size:25px;
+  }
+}
+
+@media(min-width:701px){
+  .bottom-nav{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon">🌾</div>
+      <div>
+        <h1>AI Farmer</h1>
+        <p>Smart Farming Assistant</p>
+      </div>
+    </div>
+
+    <button class="profile" onclick="openModal('profileModal')" aria-label="Profile">
+      HF
+    </button>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h2>नमस्ते किसान 👨‍🌾</h2>
+      <p>AI की मदद से खेती को बनाएं<br>और भी स्मार्ट और आसान।</p>
+    </div>
+
+    <div class="weather-mini">
+      <strong>☀️ 28°C</strong>
+      <span>आज का मौसम</span>
+    </div>
+  </div>
+
+</header>
+
+<main>
+
+  <div class="section-title">
+    <h3>Quick Actions</h3>
+    <span>सब देखें</span>
+  </div>
+
+  <div class="quick-grid">
+
+    <button class="quick" onclick="openModal('cropModal')">
+      <div class="quick-icon">🌱</div>
+      <b>Crop Doctor</b>
+    </button>
+
+    <button class="quick" onclick="openModal('weatherModal')">
+      <div class="quick-icon">☀️</div>
+      <b>Weather</b>
+    </button>
+
+    <button class="quick" onclick="openModal('mandiModal')">
+      <div class="quick-icon">📈</div>
+      <b>Mandi Bhav</b>
+    </button>
+
+    <button class="quick" onclick="openModal('calculatorModal')">
+      <div class="quick-icon">🧮</div>
+      <b>Calculator</b>
+    </button>
+
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <section class="ai-card">
+
+    <div class="ai-head">
+      <div class="ai-icon">🤖</div>
+      <div>
+        <h3>AI Farming Assistant</h3>
+        <p>अपनी खेती से जुड़ा सवाल पूछें</p>
+      </div>
+    </div>
+
+    <div class="ai-input">
+      <input id="question"
+             type="text"
+             maxlength="300"
+             placeholder="जैसे: गेहूं में पीलापन क्यों आ रहा है?">
+
+      <button onclick="askAI()">पूछें</button>
+    </div>
+
+    <div id="aiAnswer" style="margin-top:15px;display:none;"></div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <div class="section-title">
+    <h3>Smart Farming</h3>
+    <span>AI Powered</span>
+  </div>
+
+  <div class="cards">
+
+    <article class="card">
+      <div class="card-top">
+        <div>
+          <b>AI Crop Doctor</b>
+          <p>फसल की फोटो से समस्या पहचानने का interface</p>
+        </div>
+        <div class="card-icon">🌿</div>
+      </div>
+      <h4>फसल की सेहत जांचें</h4>
+      <button class="action" onclick="openModal('cropModal')">
+        फोटो Upload करें
+      </button>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div>
+          <b>मंडी भाव</b>
+          <p>अपनी फसल के बाजार भाव देखें</p>
+        </div>
+        <div class="card-icon">📊</div>
+      </div>
+      <h4>आज का Mandi Dashboard</h4>
+      <button class="action" onclick="openModal('mandiModal')">
+        भाव देखें
+      </button>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div>
+          <b>खर्च और मुनाफा</b>
+          <p>खेती की लागत का हिसाब रखें</p>
+        </div>
+        <div class="card-icon">💰</div>
+      </div>
+      <h4>Profit Calculator</h4>
+      <button class="action" onclick="openModal('profitModal')">
+        Calculator खोलें
+      </button>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div>
+          <b>Crop Calendar</b>
+          <p>फसल के जरूरी काम समय पर करें</p>
+        </div>
+        <div class="card-icon">📅</div>
+      </div>
+      <h4>Season Planner</h4>
+      <button class="action" onclick="showToast('Crop Calendar जल्द जोड़ा जाएगा')">
+        देखें
+      </button>
+    </article>
+
+  </div>
+
+  <!-- WEATHER -->
+  <div class="section-title">
+    <h3>आज का मौसम</h3>
+    <span>Live API बाद में</span>
+  </div>
+
+  <section class="weather-card">
+
+    <div class="weather-main">
+      <div>
+        <div class="temp">28°C</div>
+        <p>आंशिक बादल • खेती के लिए सामान्य</p>
+      </div>
+
+      <div style="font-size:52px;">🌤️</div>
+    </div>
+
+    <div class="weather-details">
+      <div class="weather-detail">
+        <small>💧 Humidity</small>
+        62%
+      </div>
+
+      <div class="weather-detail">
+        <small>🌧️ Rain</small>
+        20%
+      </div>
+
+      <div class="weather-detail">
+        <small>💨 Wind</small>
+        12 km/h
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TIPS -->
+  <div class="section-title">
+    <h3>आज की किसान सलाह</h3>
+    <span>AI Tips</span>
+  </div>
+
+  <section class="card">
+    <h4>🌱 फसल की नियमित निगरानी करें</h4>
+    <p>
+      खेत में पत्तियों का रंग, कीटों की मौजूदगी और मिट्टी की नमी
+      नियमित रूप से जांचें। किसी समस्या की पहचान होने पर स्थानीय
+      कृषि विशेषज्ञ से उचित सलाह लें।
+    </p>
+  </section>
+
+</main>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav" aria-label="Main navigation">
+
+  <button class="nav-btn active" onclick="scrollTopPage()">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+
+  <button class="nav-btn" onclick="openModal('cropModal')">
+    <span class="nav-icon">🌱</span>
+    Crop Doctor
+  </button>
+
+  <button class="nav-btn" onclick="openModal('mandiModal')">
+    <span class="nav-icon">📈</span>
+    Mandi
+  </button>
+
+  <button class="nav-btn" onclick="openModal('profileModal')">
+    <span class="nav-icon">👤</span>
+    Profile
+  </button>
+
+</nav>
+
+<!-- CROP MODAL -->
+
+<div class="modal" id="cropModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>🌱 AI Crop Doctor</h3>
+      <button class="close" onclick="closeModal('cropModal')">✕</button>
+    </div>
+
+    <div class="upload">
+      <div style="font-size:45px;">📷</div>
+      <h4 style="margin-top:10px;">फसल की फोटो चुनें</h4>
+      <p style="color:#718078;margin-top:5px;font-size:13px;">
+        Demo interface — real AI analysis बाद में secure API से जोड़ा जाएगा।
+      </p>
+
+      <input id="cropImage"
+             type="file"
+             accept="image/*"
+             onchange="previewCrop()">
+    </div>
+
+    <div class="result" id="cropResult">
+      <b>🔎 Photo received</b>
+      <p style="margin-top:6px;">
+        आपकी फोटो तैयार है। वास्तविक बीमारी पहचानने के लिए
+        AI crop-analysis API जोड़ना होगा।
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- WEATHER MODAL -->
+
+<div class="modal" id="weatherModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>☀️ Weather</h3>
+      <button class="close" onclick="closeModal('weatherModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>स्थान</label>
+      <input id="locationInput"
+             maxlength="80"
+             placeholder="जैसे Bhopal">
+    </div>
+
+    <button class="primary" onclick="weatherDemo()">
+      मौसम देखें
+    </button>
+
+    <div id="weatherResult" class="result"></div>
+
+  </div>
+</div>
+
+<!-- MANDI MODAL -->
+
+<div class="modal" id="mandiModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>📈 Mandi Bhav</h3>
+      <button class="close" onclick="closeModal('mandiModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>फसल चुनें</label>
+      <select id="cropSelect">
+        <option>गेहूं</option>
+        <option>सोयाबीन</option>
+        <option>चना</option>
+        <option>मक्का</option>
+        <option>सरसों</option>
+      </select>
+    </div>
+
+    <button class="primary" onclick="mandiDemo()">
+      भाव देखें
+    </button>
+
+    <div id="mandiResult" class="result"></div>
+
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+
+<div class="modal" id="calculatorModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>🧮 खेती Calculator</h3>
+      <button class="close" onclick="closeModal('calculatorModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>खेत का क्षेत्रफल (एकड़)</label>
+      <input id="area" type="number" min="0" max="100000" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label>बीज लागत / एकड़ (₹)</label>
+      <input id="seedCost" type="number" min="0" max="10000000">
+    </div>
+
+    <div class="form-group">
+      <label>खाद/दवाई लागत / एकड़ (₹)</label>
+      <input id="fertCost" type="number" min="0" max="10000000">
+    </div>
+
+    <button class="primary" onclick="calculateCost()">
+      कुल लागत निकालें
+    </button>
+
+    <div id="calcResult" class="result"></div>
+
+  </div>
+</div>
+
+<!-- PROFIT -->
+
+<div class="modal" id="profitModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>💰 Profit Calculator</h3>
+      <button class="close" onclick="closeModal('profitModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>कुल उत्पादन (क्विंटल)</label>
+      <input id="production" type="number" min="0" max="10000000" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label>बिक्री भाव / क्विंटल (₹)</label>
+      <input id="price" type="number" min="0" max="100000000">
+    </div>
+
+    <div class="form-group">
+      <label>कुल लागत (₹)</label>
+      <input id="totalCost" type="number" min="0" max="100000000">
+    </div>
+
+    <button class="primary" onclick="calculateProfit()">
+      मुनाफा निकालें
+    </button>
+
+    <div id="profitResult" class="result"></div>
+
+  </div>
+</div>
+
+<!-- PROFILE -->
+
+<div class="modal" id="profileModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>👤 किसान Profile</h3>
+      <button class="close" onclick="closeModal('profileModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>नाम</label>
+      <input id="farmerName" maxlength="60" placeholder="अपना नाम">
+    </div>
+
+    <button class="primary" onclick="saveProfile()">
+      Profile Save करें
+    </button>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/*
+  SECURITY NOTE:
+  Never put private API keys, passwords or secret tokens in this file.
+  GitHub Pages is public static hosting.
+*/
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function openModal(id){
+  const modal = $(id);
+  if(modal) modal.classList.add("show");
+}
+
+function closeModal(id){
+  const modal = $(id);
+  if(modal) modal.classList.remove("show");
+}
+
+document.querySelectorAll(".modal").forEach(function(modal){
+  modal.addEventListener("click",function(e){
+    if(e.target === modal){
+      modal.classList.remove("show");
+    }
+  });
+});
+
+function showToast(message){
+  const toast = $("toast");
+
+  // textContent avoids HTML injection
+  toast.textContent = String(message);
+
+  toast.classList.add("show");
+
+  setTimeout(function(){
+    toast.classList.remove("show");
+  },2500);
+}
+
+/* AI DEMO */
+
+function askAI(){
+
+  const input = $("question");
+  const answer = $("aiAnswer");
+
+  const question = input.value.trim();
+
+  if(!question){
+    showToast("पहले अपना सवाल लिखें");
+    return;
+  }
+
+  if(question.length > 300){
+    showToast("सवाल बहुत लंबा है");
+    return;
+  }
+
+  answer.style.display="block";
+
+  // Safe text rendering
+  answer.textContent =
+    "🤖 Demo AI: आपके सवाल को समझ लिया गया है। Real AI answer के लिए secure AI API/backend जोड़ना होगा।";
+
+  showToast("AI Assistant ने सवाल receive किया");
+}
+
+/* CROP PHOTO */
+
+function previewCrop(){
+
+  const file = $("cropImage").files[0];
+
+  if(!file) return;
+
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  if(!allowed.includes(file.type)){
+    $("cropImage").value="";
+    showToast("कृपया JPG, PNG या WebP फोटो चुनें");
+    return;
+  }
+
+  if(file.size > 5 * 1024 * 1024){
+    $("cropImage").value="";
+    showToast("फोटो 5MB से छोटी होनी चाहिए");
+    return;
+  }
+
+  $("cropResult").style.display="block";
+  showToast("फोटो सुरक्षित रूप से चुनी गई");
+}
+
+/* WEATHER DEMO */
+
+function weatherDemo(){
+
+  const location = $("locationInput").value.trim();
+
+  if(!location){
+    showToast("स्थान लिखें");
+    return;
+  }
+
+  $("weatherResult").style.display="block";
+  $("weatherResult").textContent =
+    "📍 " + location +
+    " — Demo weather data. Real-time weather API बाद में secure backend से जोड़ी जाएगी।";
+}
+
+/* MANDI DEMO */
+
+function mandiDemo(){
+
+  const crop = $("cropSelect").value;
+
+  $("mandiResult").style.display="block";
+  $("mandiResult").textContent =
+    "🌾 " + crop +
+    " — Demo mandi screen. Live मंडी भाव के लिए verified market-data API जोड़ना होगा।";
+}
+
+/* FARM COST */
+
+function safeNumber(id){
+
+  const value = Number($(id).value);
+
+  if(!Number.isFinite(value) || value < 0){
+    return null;
+  }
+
+  return value;
+}
+
+function calculateCost(){
+
+  const area = safeNumber("area");
+  const seed = safeNumber("seedCost");
+  const fert = safeNumber("fertCost");
+
+  if(area === null || seed === null || fert === null){
+    showToast("सभी values सही भरें");
+    return;
+  }
+
+  const total = area * (seed + fert);
+
+  $("calcResult").style.display="block";
+  $("calcResult").textContent =
+    "💰 अनुमानित कुल लागत: ₹" +
+    total.toLocaleString("en-IN");
+}
+
+/* PROFIT */
+
+function calculateProfit(){
+
+  const production = safeNumber("production");
+  const price = safeNumber("price");
+  const cost = safeNumber("totalCost");
+
+  if(
+    production === null ||
+    price === null ||
+    cost === null
+  ){
+    showToast("सभी values सही भरें");
+    return;
+  }
+
+  const revenue = production * price;
+  const profit = revenue - cost;
+
+  $("profitResult").style.display="block";
+
+  $("profitResult").textContent =
+    "📊 बिक्री: ₹" +
+    revenue.toLocaleString("en-IN") +
+    " | अनुमानित मुनाफा: ₹" +
+    profit.toLocaleString("en-IN");
+}
+
+/* PROFILE */
+
+function saveProfile(){
+
+  const name = $("farmerName").value.trim();
+
+  if(!name){
+    showToast("नाम लिखें");
+    return;
+  }
+
+  if(name.length > 60){
+    showToast("नाम बहुत लंबा है");
+    return;
+  }
+
+  /*
+    Only non-sensitive display information is stored.
+    Never store passwords, tokens or private credentials here.
+  */
+  try{
+    localStorage.setItem(
+      "ai_farmer_display_name",
+      name
+    );
+
+    showToast("Profile save हो गई");
+    closeModal("profileModal");
+
+  }catch(error){
+    showToast("Profile save नहीं हो सकी");
+  }
+}
+
+/* LOAD PROFILE */
+
+(function(){
+
+  try{
+
+    const saved =
+      localStorage.getItem("ai_farmer_display_name");
+
+    if(saved){
+      $("farmerName").value = saved;
+    }
+
+  }catch(error){
+    // Ignore local storage errors
+  }
+
+})();
+
+function scrollTopPage(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+</script>
+
+</body>
+</html>
 
       
